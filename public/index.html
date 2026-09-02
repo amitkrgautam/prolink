@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProLinks — Protect & Hide Your File Links</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #faf9f7; color: #2c2c2a; overflow-x: hidden; }
+    :root {
+      --orange: #f97316; --pink: #ec4899;
+      --grad: linear-gradient(135deg, #f97316, #ec4899);
+      --grad-soft: linear-gradient(135deg, #fff7f3, #fdf0f6);
+      --border: #e8e6e0; --text-muted: #888780; --text-hint: #b4b2a9;
+      --bg: #faf9f7; --white: #ffffff;
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.07);
+      --shadow-hover: 0 8px 32px rgba(249,115,22,0.15);
+      --radius-sm: 10px; --radius-md: 14px; --radius-lg: 20px;
+      --radius-xl: 24px; --radius-pill: 999px;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1efe8; }
+    ::-webkit-scrollbar-thumb { background: #f9c4a0; border-radius: 3px; }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(250,249,247,0.93);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 40px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 9px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: #1a1a18; text-decoration: none; }
+    .nav-logo-icon { width: 34px; height: 34px; background: var(--grad); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; font-weight: 800; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a18; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-ghost { font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; padding: 8px 14px; border-radius: var(--radius-pill); transition: color 0.2s, background 0.2s; text-decoration: none; display: inline-block; }
+    .btn-ghost:hover { color: #1a1a18; background: #f1efe8; }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 22px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: opacity 0.2s, transform 0.15s; text-decoration: none; display: inline-block; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero { padding: 80px 40px 64px; text-align: center; background: radial-gradient(ellipse 90% 55% at 50% -5%, #fff1eb 0%, #faf9f7 65%); position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -60px; left: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%); border-radius: 50%; }
+    .hero::after { content: ''; position: absolute; top: -40px; right: -60px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 70%); border-radius: 50%; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--white); border: 0.5px solid #f0cdb8; border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; color: #c2410c; margin-bottom: 28px; font-weight: 600; animation: fadeInDown 0.5s ease both; }
+    .badge-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.85); } }
+    .hero h1 { font-family: 'Nunito', sans-serif; font-size: 58px; font-weight: 900; line-height: 1.12; color: #1a1a18; max-width: 660px; margin: 0 auto 14px; animation: fadeInUp 0.5s ease 0.1s both; }
+    .hero h1 .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { color: var(--text-muted); font-size: 17px; max-width: 500px; margin: 0 auto 40px; line-height: 1.75; animation: fadeInUp 0.5s ease 0.2s both; }
+
+    /* TABS */
+    .tabs-wrap { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; animation: fadeInUp 0.5s ease 0.3s both; }
+    .tab { display: flex; align-items: center; gap: 7px; padding: 8px 18px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--white); color: #5f5e5a; transition: all 0.2s; user-select: none; }
+    .tab svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .tab:hover, .tab.active { background: var(--grad-soft); border-color: #f9c4a0; color: #c2410c; }
+
+    /* SEARCH BOX */
+    .search-wrap { max-width: 620px; margin: 0 auto; animation: fadeInUp 0.5s ease 0.35s both; }
+    .search-box { display: flex; align-items: center; background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 7px 7px 7px 18px; box-shadow: var(--shadow-card); transition: border-color 0.2s, box-shadow 0.2s; }
+    .search-box:focus-within { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.08); }
+    .search-box input { flex: 1; border: none; outline: none; background: transparent; font-size: 14px; color: #1a1a18; font-family: 'Plus Jakarta Sans', sans-serif; padding: 6px 0; }
+    .search-box input::placeholder { color: var(--text-hint); }
+    .search-btn { background: var(--grad); color: white; border: none; padding: 11px 24px; border-radius: 13px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: opacity 0.2s, transform 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
+    .search-btn:hover { opacity: 0.9; transform: scale(0.98); }
+    .search-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .search-hint { font-size: 12px; color: var(--text-hint); margin-top: 11px; }
+
+    /* RESULT BOX */
+    .result-box { max-width: 620px; margin: 20px auto 0; background: var(--white); border: 1.5px solid #f9c4a0; border-radius: var(--radius-lg); padding: 24px; display: none; animation: fadeInUp 0.4s ease both; }
+    .result-box.show { display: block; }
+    .result-step { display: none; }
+    .result-step.active { display: block; }
+
+    /* Step 1: Fetching */
+    .fetching-wrap { text-align: center; padding: 20px 0; }
+    .fetch-spinner { width: 48px; height: 48px; border: 3px solid #f9c4a0; border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fetching-wrap h4 { font-size: 15px; font-weight: 700; color: #1a1a18; margin-bottom: 6px; }
+    .fetching-wrap p { font-size: 13px; color: var(--text-muted); }
+
+    /* Step 2: Result */
+    .result-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .result-thumb { width: 64px; height: 64px; border-radius: 12px; background: var(--grad-soft); border: 1px solid #f9c4a0; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .result-info h4 { font-size: 16px; font-weight: 700; color: #1a1a18; margin-bottom: 4px; }
+    .result-info p { font-size: 12px; color: var(--text-muted); }
+    .result-meta-grid { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .meta-item { background: #f9f8f6; border-radius: 10px; padding: 10px 14px; }
+    .meta-item label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-hint); display: block; margin-bottom: 3px; }
+    .meta-item span { font-size: 13px; font-weight: 600; color: #1a1a18; word-break: break-all; }
+    .short-link-wrap { background: var(--grad-soft); border: 1px solid #f9c4a0; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+    .short-link-wrap label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--orange); display: block; margin-bottom: 6px; }
+    .short-link-row { display: flex; align-items: center; gap: 10px; }
+    .short-link-url { flex: 1; font-size: 14px; font-weight: 700; color: #1a1a18; word-break: break-all; }
+    .copy-btn { background: var(--grad); color: white; border: none; padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; white-space: nowrap; transition: opacity 0.2s; }
+    .copy-btn:hover { opacity: 0.85; }
+    .open-btn { width: 100%; padding: 13px; background: var(--grad); color: white; border: none; border-radius: var(--radius-md); font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: opacity 0.2s, transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+    .open-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* STATS BAR */
+    .stats-bar { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; padding: 36px 40px; border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); background: var(--white); }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+    /* SECTION */
+    .section { padding: 72px 40px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); text-align: center; margin-bottom: 10px; }
+    .section-title { font-family: 'Nunito', sans-serif; font-size: 34px; font-weight: 900; color: #1a1a18; text-align: center; margin-bottom: 8px; }
+    .section-sub { text-align: center; color: var(--text-muted); font-size: 15px; max-width: 500px; margin: 0 auto 44px; line-height: 1.7; }
+
+    /* TOOLS GRID */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+    .tool-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 22px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
+    .tool-card:hover { border-color: #f9c4a0; transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .tool-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad); opacity: 0; transition: opacity 0.25s; }
+    .tool-card:hover::before { opacity: 1; }
+    .popular-badge { position: absolute; top: 14px; right: 14px; background: #fff7ed; color: #c2410c; font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 7px; border: 0.5px solid #fed7aa; letter-spacing: 0.3px; }
+    .tool-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+    .tool-card h3 { font-size: 15px; font-weight: 700; color: #1a1a18; margin-bottom: 7px; }
+    .tool-card p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+    .tool-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: var(--orange); margin-top: 12px; cursor: pointer; transition: gap 0.2s; }
+    .tool-link:hover { gap: 7px; }
+
+    /* AI BANNER */
+    .ai-banner { margin-top: 18px; background: var(--grad-soft); border: 1px solid #f9c4a0; border-radius: var(--radius-lg); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; transition: all 0.2s; }
+    .ai-banner:hover { border-color: var(--orange); box-shadow: var(--shadow-hover); }
+    .ai-left { display: flex; align-items: center; gap: 14px; }
+    .ai-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--grad); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .ai-text h4 { font-size: 15px; font-weight: 700; color: #1a1a18; }
+    .ai-text p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .ai-try { font-size: 13px; font-weight: 700; color: var(--orange); background: none; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; white-space: nowrap; display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+    .ai-try:hover { gap: 8px; }
+
+    /* FEATURES */
+    .features-section { background: var(--white); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); padding: 72px 40px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px; max-width: 1000px; margin: 0 auto; }
+    .feat-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px; border-radius: var(--radius-md); transition: background 0.2s; }
+    .feat-item:hover { background: #f9f8f6; }
+    .feat-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-top: 1px; }
+    .feat-item h4 { font-size: 14px; font-weight: 700; color: #1a1a18; margin-bottom: 5px; }
+    .feat-item p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* STEPS */
+    .steps-row { display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap; gap: 10px; max-width: 880px; margin: 0 auto; }
+    .step { flex: 1; min-width: 180px; max-width: 230px; text-align: center; padding: 10px 16px; }
+    .step-num { width: 52px; height: 52px; border-radius: 50%; background: var(--grad); color: white; font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; box-shadow: 0 6px 20px rgba(249,115,22,0.3); }
+    .step h3 { font-size: 16px; font-weight: 800; color: #1a1a18; margin-bottom: 9px; }
+    .step p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+    .step-arrow { font-size: 22px; color: #f9c4a0; align-self: center; margin-top: -28px; flex-shrink: 0; }
+
+    /* FAQ */
+    .faq-section { background: #f5f4f1; padding: 72px 40px; }
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-md); margin-bottom: 10px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+    .faq-q:hover { background: #faf9f7; }
+    .faq-q span { font-size: 14px; font-weight: 600; color: #1a1a18; }
+    .faq-icon { font-size: 18px; color: var(--orange); transition: transform 0.25s; flex-shrink: 0; margin-left: 12px; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { padding: 0 22px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    .faq-item.open .faq-a { max-height: 200px; padding: 4px 22px 18px; }
+
+    /* CTA */
+    .cta-section { padding: 0 40px 72px; }
+    .cta-inner { max-width: 1100px; margin: 0 auto; background: var(--grad); border-radius: var(--radius-xl); padding: 64px 48px; text-align: center; color: white; position: relative; overflow: hidden; }
+    .cta-inner::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+    .cta-inner::after { content: ''; position: absolute; bottom: -60px; left: -40px; width: 180px; height: 180px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+    .cta-inner h2 { font-family: 'Nunito', sans-serif; font-size: 38px; font-weight: 900; margin-bottom: 12px; }
+    .cta-inner p { opacity: 0.85; font-size: 16px; margin-bottom: 32px; }
+    .cta-btn { background: white; color: var(--orange); border: none; padding: 14px 32px; border-radius: var(--radius-pill); font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: transform 0.15s, box-shadow 0.2s; position: relative; z-index: 1; }
+    .cta-btn:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+    /* FOOTER */
+    .footer { background: var(--white); border-top: 0.5px solid var(--border); padding: 48px 40px 28px; text-align: center; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 640px; margin: 0 auto 32px; justify-items: center; }
+    .footer-brand { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .footer-brand .nav-logo { justify-content: center; }
+    .footer-brand p { font-size: 13px; color: var(--text-hint); margin: 12px auto 0; line-height: 1.7; max-width: 420px; }
+    .footer-col h5 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a18; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 0.5px solid var(--border); padding-top: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; max-width: 640px; margin: 0 auto; text-align: center; }
+    .footer-bottom p { font-size: 12px; color: var(--text-hint); margin: 0; }
+    .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: center; align-items: center; }
+    .footer-bottom-links a { font-size: 12px; color: var(--text-hint); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 28px; right: 28px; background: #1a1a18; color: white; padding: 13px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; box-shadow: 0 8px 28px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 9px; transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 9999; pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ANIMATIONS */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links, .btn-ghost { display: none; }
+      .hero h1 { font-size: 40px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .step-arrow { display: none; }
+    }
+    @media (max-width: 600px) {
+      .navbar { padding: 0 20px; }
+      .hero { padding: 56px 20px 48px; }
+      .hero h1 { font-size: 32px; }
+      .section { padding: 52px 20px; }
+      .features-section, .faq-section { padding: 52px 20px; }
+      .cta-section { padding: 0 20px 52px; }
+      .cta-inner { padding: 44px 24px; }
+      .cta-inner h2 { font-size: 28px; }
+      .footer { padding: 40px 20px 20px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .stats-bar { gap: 24px; padding: 28px 20px; }
+      .footer-bottom-links { gap: 8px 16px; }
+      .result-meta-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="toast"><span>✅</span><span id="toast-msg">Done!</span></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="https://prolinks.cc" class="nav-logo">
+      <div class="nav-logo-icon">↓</div>ProLinks
+    </a>
+    <ul class="nav-links">
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="/signin" class="btn-ghost">Sign in</a>
+      <a href="/signup" class="btn-primary">Start Downloading</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-badge"><div class="badge-dot"></div>Free · No Signup · Original Quality</div>
+    <h1>Protect Your Files with Short Links <span class="grad-text">in Seconds</span></h1>
+    <p class="hero-sub">Paste any file link — we'll generate a short download link. Share it with anyone, anywhere.</p>
+
+    <!-- Tabs -->
+    <div class="tabs-wrap">
+      <div class="tab active" data-type="video" onclick="selectTab(this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h10l2 2.5L12 9H2z"/></svg>Video
+      </div>
+      <div class="tab" data-type="photo" onclick="selectTab(this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><circle cx="5.5" cy="6.5" r="1"/><path d="M2 10l3-3 3 3 2-2 4 4"/></svg>Photo
+      </div>
+      <div class="tab" data-type="document" onclick="selectTab(this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h6l4 4v8H4V2z"/><path d="M10 2v4h4"/><path d="M6 9h5M6 12h3"/></svg>Document
+      </div>
+      <div class="tab" data-type="audio" onclick="selectTab(this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 4l6-2v10l-6-2V4z"/><path d="M6 6H3a1 1 0 00-1 1v2a1 1 0 001 1h3"/></svg>Audio
+      </div>
+      <div class="tab" data-type="archive" onclick="selectTab(this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="3" rx="1"/><path d="M2 6v7a1 1 0 001 1h10a1 1 0 001-1V6"/><path d="M6 9h4"/></svg>Archive
+      </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="url" id="urlInput" placeholder="Paste any file link here..." autocomplete="off" />
+        <button class="search-btn" id="fetchBtn" onclick="handleFetch()">
+          <span class="btn-label">⬇ Get Link</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Result Box -->
+    <div class="result-box" id="resultBox">
+      <!-- Step 1: Fetching -->
+      <div class="result-step active" id="stepFetching">
+        <div class="fetching-wrap">
+          <div class="fetch-spinner"></div>
+          <h4>Fetching file info...</h4>
+          <p>Saving to database & generating your short link</p>
+        </div>
+      </div>
+
+      <!-- Step 2: Result -->
+      <div class="result-step" id="stepResult">
+        <div class="result-header">
+          <div class="result-thumb" id="resultThumb">🎬</div>
+          <div class="result-info">
+            <h4 id="resultTitle">File Detected</h4>
+            <p id="resultMeta">Short link ready — share with anyone!</p>
+          </div>
+        </div>
+
+        <div class="result-meta-grid">
+          <div class="meta-item">
+            <label>File Name</label>
+            <span id="metaFileName">—</span>
+          </div>
+          <div class="meta-item">
+            <label>Format</label>
+            <span id="metaFormat">—</span>
+          </div>
+          <div class="meta-item">
+            <label>File Size</label>
+            <span id="metaSize">—</span>
+          </div>
+          <div class="meta-item">
+            <label>Content Type</label>
+            <span id="metaType">—</span>
+          </div>
+        </div>
+
+        <div class="short-link-wrap">
+          <label>🔗 Your Short Download Link</label>
+          <div class="short-link-row">
+            <span class="short-link-url" id="shortLinkDisplay">—</span>
+            <button class="copy-btn" onclick="copyShortLink()">Copy</button>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">✅ Anyone with this link can download the file</div>
+        </div>
+
+        <a class="open-btn" id="openDownloadBtn" href="#" target="_blank">
+          🔗 Open Download Page
+        </a>
+      </div>
+
+      <!-- Step 3: Error -->
+      <div class="result-step" id="stepError">
+        <div class="fetching-wrap">
+          <div style="font-size:40px;margin-bottom:12px;">⚠️</div>
+          <h4 id="errorMsg">Something went wrong</h4>
+          <p>Please check the URL and try again</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar reveal">
+    <div class="stat-item"><div class="stat-num" id="counter1">0</div><div class="stat-label">Files Downloaded</div></div>
+    <div class="stat-item"><div class="stat-num" id="counter2">0</div><div class="stat-label">Happy Users</div></div>
+    <div class="stat-item"><div class="stat-num" id="counter3">0</div><div class="stat-label">Formats Supported</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Free Forever</div></div>
+  </div>
+
+  <!-- TOOLS -->
+  <section class="section" id="tools">
+    <div class="section-inner">
+      <div class="section-label reveal">Our Tools</div>
+      <div class="section-title reveal">Everything You Need</div>
+      <div class="section-sub reveal">Protect your files links with our specialized tools — fast, clean, and always original quality.</div>
+      <div class="tools-grid">
+        <div class="tool-card reveal" onclick="setTab('video')">
+          <div class="popular-badge">Most Popular</div>
+          <div class="tool-icon" style="background:#fff7ed;">🎬</div>
+          <h3>Video Protector</h3>
+          <p>Download any video in HD or 4K quality. No compression, no quality loss.</p>
+          <div class="tool-link">Try now →</div>
+        </div>
+        <div class="tool-card reveal" onclick="setTab('photo')">
+          <div class="tool-icon" style="background:#fdf0f6;">🖼️</div>
+          <h3>Image Protector</h3>
+          <p>Save photos in original resolution — PNG, JPG, WEBP all supported.</p>
+          <div class="tool-link">Try now →</div>
+        </div>
+        <div class="tool-card reveal" onclick="setTab('document')">
+          <div class="tool-icon" style="background:#f0fdf4;">📄</div>
+          <h3>Document Protector</h3>
+          <p>Download PDFs, DOCX, spreadsheets from any public link instantly.</p>
+          <div class="tool-link">Try now →</div>
+        </div>
+        <div class="tool-card reveal" onclick="setTab('archive')">
+          <div class="tool-icon" style="background:#fefce8;">📦</div>
+          <h3>Archive Protector</h3>
+          <p>Fetch ZIP, RAR, 7Z and other archive files from any remote URL.</p>
+          <div class="tool-link">Try now →</div>
+        </div>
+      </div>
+<div class="ai-banner reveal">
+  <div class="ai-left">
+    <div class="ai-text">
+      <h4>Important Note : </h4>
+      <p>
+        We do not host any files on our server. All links are automatically deleted after 24 hours.  
+        Please download only content you have the right to access. ProLinks is not responsible for any misuse.
+      </p>
+    </div>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="section-label reveal">Why ProLinks</div>
+    <div class="section-title reveal">Built for Speed &amp; Privacy</div>
+    <div class="section-sub reveal">No trackers. No ads. No account needed. Just fast, clean downloads every time.</div>
+    <div class="features-grid">
+      <div class="feat-item reveal"><div class="feat-icon" style="background:#fff7ed;">⚡</div><div><h4>Lightning Fast</h4><p>Downloads start within 2 seconds. No waiting, no queues, no hassle.</p></div></div>
+      <div class="feat-item reveal"><div class="feat-icon" style="background:#fdf0f6;">🔒</div><div><h4>100% Private</h4><p>We never store your links or downloads. Zero logging, zero tracking.</p></div></div>
+      <div class="feat-item reveal"><div class="feat-icon" style="background:#eff6ff;">📱</div><div><h4>All Devices</h4><p>Works perfectly on mobile, tablet, and desktop browsers without any app.</p></div></div>
+      <div class="feat-item reveal"><div class="feat-icon" style="background:#fdf4ff;">🌍</div><div><h4>Share Anywhere</h4><p>Generated links work on all devices. Share with anyone, they can download too.</p></div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-inner">
+      <div class="section-label reveal">How It Works</div>
+      <div class="section-title reveal">3 Simple Steps</div>
+      <div class="section-sub reveal">Getting your files is as easy as copy, paste, and click.</div>
+      <div class="steps-row">
+        <div class="step reveal"><div class="step-num">1</div><h3>Paste the Link</h3><p>Copy any public file URL and paste it into the ProLinks input box.</p></div>
+        <div class="step-arrow">→</div>
+        <div class="step reveal"><div class="step-num">2</div><h3>Get Short Link</h3><p>We save it to our server and give you a short link anyone can use.</p></div>
+        <div class="step-arrow">→</div>
+        <div class="step reveal"><div class="step-num">3</div><h3>Download</h3><p>Open or share the short link — works on any device, anywhere.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="section-label reveal">FAQ</div>
+    <div class="section-title reveal">Common Questions</div>
+    <div class="section-sub reveal">Everything you need to know about ProLinks.</div>
+    <div class="faq-list">
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I share the link with others?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes! Generated short links are stored on our server, so anyone with the link can open it on any device. Share freely with friends, family, or colleagues.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span>Is it legal to download files using ProLinks?</span><span class="faq-icon">+</span></div><div class="faq-a">Downloading files for personal use is generally acceptable. However, redistributing copyrighted content without permission may violate terms of service or copyright laws. Always respect the original creator's rights.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span>Does ProLinks work on private or locked links?</span><span class="faq-icon">+</span></div><div class="faq-a">ProLinks can only download from public URLs. Private files, password-protected pages, or links requiring authentication are not supported at this time.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span>What file formats are supported?</span><span class="faq-icon">+</span></div><div class="faq-a">We support virtually all common file formats — MP4, MKV, MOV, JPG, PNG, WEBP, PDF, DOCX, XLSX, MP3, ZIP, RAR and many more. We always fetch the original format.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span>Is ProLinks safe? Do you store my data?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes, ProLinks is completely safe. Links are stored on our server only to allow sharing. We do not store personal data or install anything on your device.</div></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner reveal">
+      <h2>Ready to Download?</h2>
+      <p>Start saving your favourite files right now — free, fast, no account needed.</p>
+      <button class="cta-btn" onclick="scrollToTop()">⬇ Start Downloading</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;">↓</div>
+          ProLinks
+        </a>
+        <p>The fastest free tool to protect your files links from any public link — no signup, no watermarks, always free.</p>
+      </div>
+      </div>
+    <div class="footer-bottom">
+      <p>© 2026 ProLinks. All rights reserved. Made with ♥</p>
+      <div class="footer-bottom-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/dmca">DMCA</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  function handleFetch1() {
+    window.location.href = "/signin";
+}
+  
+    // ===== FILE METADATA DETECTION =====
+    const typeMap = {
+      'mp4': { icon: '🎬', type: 'Video', format: 'MP4' },
+      'mkv': { icon: '🎬', type: 'Video', format: 'MKV' },
+      'mov': { icon: '🎬', type: 'Video', format: 'MOV' },
+      'avi': { icon: '🎬', type: 'Video', format: 'AVI' },
+      'webm': { icon: '🎬', type: 'Video', format: 'WEBM' },
+      'jpg': { icon: '🖼️', type: 'Image', format: 'JPEG' },
+      'jpeg': { icon: '🖼️', type: 'Image', format: 'JPEG' },
+      'png': { icon: '🖼️', type: 'Image', format: 'PNG' },
+      'webp': { icon: '🖼️', type: 'Image', format: 'WEBP' },
+      'gif': { icon: '🖼️', type: 'Image', format: 'GIF' },
+      'svg': { icon: '🖼️', type: 'Image', format: 'SVG' },
+      'pdf': { icon: '📄', type: 'Document', format: 'PDF' },
+      'docx': { icon: '📄', type: 'Document', format: 'DOCX' },
+      'doc': { icon: '📄', type: 'Document', format: 'DOC' },
+      'xlsx': { icon: '📊', type: 'Spreadsheet', format: 'XLSX' },
+      'pptx': { icon: '📊', type: 'Presentation', format: 'PPTX' },
+      'mp3': { icon: '🎵', type: 'Audio', format: 'MP3' },
+      'wav': { icon: '🎵', type: 'Audio', format: 'WAV' },
+      'flac': { icon: '🎵', type: 'Audio', format: 'FLAC' },
+      'zip': { icon: '📦', type: 'Archive', format: 'ZIP' },
+      'rar': { icon: '📦', type: 'Archive', format: 'RAR' },
+      '7z': { icon: '📦', type: 'Archive', format: '7Z' },
+      'tar': { icon: '📦', type: 'Archive', format: 'TAR' },
+    };
+
+    function detectFileInfo(url) {
+      try {
+        const u = new URL(url);
+        const path = u.pathname;
+        const parts = path.split('/');
+        const filename = decodeURIComponent(parts[parts.length - 1]) || 'file';
+        const extMatch = filename.match(/\.([a-zA-Z0-9]+)$/);
+        const ext = extMatch ? extMatch[1].toLowerCase() : '';
+        const info = typeMap[ext] || { icon: '📁', type: 'File', format: ext.toUpperCase() || 'Unknown' };
+        const sizes = ['1.2 MB', '4.8 MB', '12.3 MB', '89.5 MB', '245 MB', '2.1 GB', '320 KB', '56 KB'];
+        const size = sizes[Math.floor(Math.random() * sizes.length)];
+        return { filename: filename || 'Unknown File', ext, size, ...info };
+      } catch {
+        return { filename: 'Unknown File', ext: '', icon: '📁', type: 'File', format: 'Unknown', size: '—' };
+      }
+    }
+
+    // ===== UI LOGIC =====
+    let currentTab = 'video';
+    let currentShortCode = null;
+
+    function selectTab(el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      currentTab = el.dataset.type;
+      hideResult();
+    }
+
+    function setTab(type) {
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.type === type);
+      });
+      currentTab = type;
+      document.getElementById('urlInput').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideResult() {
+      document.getElementById('resultBox').classList.remove('show');
+    }
+
+    function showStep(stepId) {
+      document.querySelectorAll('.result-step').forEach(s => s.classList.remove('active'));
+      document.getElementById(stepId).classList.add('active');
+    }
+
+    async function handleFetch() {
+      const input = document.getElementById('urlInput');
+      const url = input.value.trim();
+
+      if (!url) { input.focus(); shakeInput(); return; }
+      if (!isValidURL(url)) { showToast('⚠️ Please paste a valid URL'); shakeInput(); return; }
+
+      const btn = document.getElementById('fetchBtn');
+      btn.disabled = true;
+      btn.querySelector('.btn-label').textContent = '⏳ Saving...';
+
+      const box = document.getElementById('resultBox');
+      box.classList.add('show');
+      showStep('stepFetching');
+
+      const meta = detectFileInfo(url);
+
+      try {
+        const response = await fetch('/api?action=create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url, meta: meta })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Server error');
+        }
+
+        currentShortCode = data.code;
+
+        // Populate result UI
+        document.getElementById('resultThumb').textContent = meta.icon;
+        document.getElementById('resultTitle').textContent = meta.filename;
+        document.getElementById('resultMeta').textContent = 'Short link saved to server — share with anyone!';
+        document.getElementById('metaFileName').textContent = meta.filename;
+        document.getElementById('metaFormat').textContent = meta.format || 'Unknown';
+        document.getElementById('metaSize').textContent = meta.size;
+        document.getElementById('metaType').textContent = meta.type;
+
+        // New link format: /?id=CODE
+        const shortUrl = window.location.origin + '/get?id=' + data.code;
+        document.getElementById('shortLinkDisplay').textContent = shortUrl;
+
+        const openBtn = document.getElementById('openDownloadBtn');
+        openBtn.href = '/get?id=' + data.code;
+
+        showStep('stepResult');
+
+      } catch (err) {
+        document.getElementById('errorMsg').textContent = err.message || 'Could not save the link. Please try again.';
+        showStep('stepError');
+        showToast('❌ Error: ' + (err.message || 'Unknown error'));
+      } finally {
+        btn.disabled = false;
+        btn.querySelector('.btn-label').textContent = '⬇ Get Link';
+      }
+    }
+
+    function copyShortLink() {
+      if (!currentShortCode) return;
+      const shortUrl = window.location.origin + '/get?id=' + currentShortCode;
+      navigator.clipboard.writeText(shortUrl).then(() => {
+        showToast('✅ Link copied!');
+      }).catch(() => {
+        const el = document.createElement('textarea');
+        el.value = shortUrl;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        showToast('✅ Link copied!');
+      });
+    }
+
+    function isValidURL(str) {
+      try {
+        const u = new URL(str);
+        return u.protocol === 'http:' || u.protocol === 'https:';
+      } catch {
+        return false;
+      }
+    }
+
+    function shakeInput() {
+      const box = document.querySelector('.search-box');
+      box.style.borderColor = '#ec4899';
+      setTimeout(() => { box.style.borderColor = ''; }, 1000);
+    }
+
+    document.getElementById('urlInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleFetch();
+    });
+
+    document.getElementById('urlInput').addEventListener('paste', function() {
+      setTimeout(() => {
+        const val = this.value.trim();
+        if (isValidURL(val)) showToast('🔗 Link pasted — hit Get Link!');
+      }, 50);
+    });
+
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
+        window.location.href = '/get?id=' + id;
+      }
+    })();
+
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => document.getElementById('urlInput').focus(), 600);
+    }
+
+    function animateCounter(id, target, suffix) {
+      const el = document.getElementById(id);
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(interval); }
+        el.textContent = current.toLocaleString() + suffix;
+      }, 20);
+    }
+
+    let countersStarted = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          if (entry.target.classList.contains('stats-bar') && !countersStarted) {
+            countersStarted = true;
+            setTimeout(() => {
+              animateCounter('counter1', 1.5, 'M+');
+              animateCounter('counter2', 1, 'K+');
+              animateCounter('counter3', 12, '+');
+            }, 200);
+          }
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BJXFQT2H32"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BJXFQT2H32');
+</script>
+</body>
+</html>

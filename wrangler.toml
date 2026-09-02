@@ -1,0 +1,15 @@
+name = "prolinks"
+compatibility_date = "2026-09-02"
+pages_build_output_dir = "public"
+
+[vars]
+SECRET_KEY = "MyS3cr3tK3y2024!@#"
+
+# Bind KV after creating a namespace:
+#   npx wrangler kv namespace create LINKS
+# Then either paste the id below or bind LINKS in the Pages dashboard
+# (Settings → Functions → KV namespace bindings).
+#
+# [[kv_namespaces]]
+# binding = "LINKS"
+# id = "your-kv-namespace-id"

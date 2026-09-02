@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Use — ProLinks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #faf9f7; color: #2c2c2a; overflow-x: hidden; }
+    :root {
+      --orange: #f97316; --pink: #ec4899;
+      --grad: linear-gradient(135deg, #f97316, #ec4899);
+      --grad-soft: linear-gradient(135deg, #fff7f3, #fdf0f6);
+      --border: #e8e6e0; --text-muted: #888780; --text-hint: #b4b2a9;
+      --white: #ffffff; --radius-md: 14px; --radius-lg: 20px; --radius-xl: 24px; --radius-pill: 999px;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1efe8; }
+    ::-webkit-scrollbar-thumb { background: #f9c4a0; border-radius: 3px; }
+
+    .navbar { position: sticky; top: 0; z-index: 200; background: rgba(250,249,247,0.93); backdrop-filter: blur(14px); border-bottom: 0.5px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 9px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: #1a1a18; text-decoration: none; }
+    .nav-logo-icon { width: 34px; height: 34px; background: var(--grad); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a18; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-ghost { font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; padding: 8px 14px; border-radius: var(--radius-pill); text-decoration: none; }
+    .btn-ghost:hover { color: #1a1a18; background: #f1efe8; }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 22px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none; display: inline-flex; align-items: center; }
+
+    .page-hero { padding: 80px 40px 64px; text-align: center; background: radial-gradient(ellipse 90% 55% at 50% -5%, #fff1eb 0%, #faf9f7 65%); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--white); border: 0.5px solid #f0cdb8; border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; color: #c2410c; margin-bottom: 28px; font-weight: 600; }
+    .badge-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .page-hero h1 { font-family: 'Nunito', sans-serif; font-size: 52px; font-weight: 900; color: #1a1a18; max-width: 600px; margin: 0 auto 14px; }
+    .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { color: var(--text-muted); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.75; }
+
+    .main-layout { display: grid; grid-template-columns: 220px 1fr; gap: 36px; max-width: 1000px; margin: 0 auto; padding: 64px 40px; }
+
+    .toc { position: sticky; top: 84px; align-self: start; }
+    .toc h5 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #1a1a18; margin-bottom: 16px; }
+    .toc a { display: block; font-size: 13px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; margin-bottom: 4px; transition: all 0.2s; border-left: 2px solid transparent; }
+    .toc a:hover { color: var(--orange); background: #fff7ed; border-left-color: var(--orange); }
+
+    .doc-content { min-width: 0; }
+    .updated-tag { display: inline-block; background: #f1efe8; color: var(--text-muted); font-size: 12px; padding: 4px 12px; border-radius: var(--radius-pill); margin-bottom: 32px; }
+
+    .doc-section { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 0.5px solid #f0ede6; }
+    .doc-section:last-child { border-bottom: none; }
+    .doc-section h2 { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; color: #1a1a18; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .doc-section p { font-size: 14px; color: var(--text-muted); line-height: 1.85; margin-bottom: 12px; }
+    .doc-section ul { list-style: none; padding: 0; margin: 12px 0; }
+    .doc-section ul li { font-size: 14px; color: var(--text-muted); line-height: 1.8; padding: 8px 0 8px 24px; border-bottom: 0.5px solid #f5f4f1; position: relative; }
+    .doc-section ul li:last-child { border-bottom: none; }
+    .doc-section ul li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+
+    .highlight-box { background: var(--grad-soft); border: 1px solid #f9c4a0; border-radius: var(--radius-md); padding: 18px 22px; margin: 16px 0; }
+    .highlight-box p { font-size: 13px; color: #92400e; line-height: 1.7; margin: 0; font-weight: 500; }
+
+    .warn-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 18px 22px; margin: 16px 0; }
+    .warn-box p { font-size: 13px; color: #991b1b; line-height: 1.7; margin: 0; }
+
+    .footer { background: var(--white); border-top: 0.5px solid var(--border); padding: 48px 40px 28px; text-align: center; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 640px; margin: 0 auto 32px; justify-items: center; }
+    .footer-brand { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .footer-brand .nav-logo { justify-content: center; }
+    .footer-brand p { font-size: 13px; color: var(--text-hint); margin: 12px auto 0; line-height: 1.7; max-width: 420px; }
+    .footer-col h5 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a18; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 0.5px solid var(--border); padding-top: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; max-width: 640px; margin: 0 auto; text-align: center; }
+    .footer-bottom p { font-size: 12px; color: var(--text-hint); margin: 0; }
+    .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: center; align-items: center; }
+    .footer-bottom-links a { font-size: 12px; color: var(--text-hint); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    @media (max-width: 900px) { .nav-links, .btn-ghost { display: none; } .main-layout { grid-template-columns: 1fr; } .toc { display: none; } .footer-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 36px; } }
+    @media (max-width: 600px) { .navbar { padding: 0 20px; } .page-hero { padding: 56px 20px 48px; } .main-layout { padding: 40px 20px; } .footer { padding: 40px 20px 20px; } .footer-grid { grid-template-columns: 1fr; gap: 28px; } .footer-bottom-links { gap: 8px 16px; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">↓</div>
+      ProLinks
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#tools">Tools</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="/signin" class="btn-ghost">Sign in</a>
+      <a href="/signup" class="btn-primary">Start Downloading</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="hero-badge"><div class="badge-dot"></div> Legal</div>
+    <h1><span class="grad-text">Terms</span> of Use</h1>
+    <p>Please read these terms carefully before using ProLinks. By using our service, you agree to these terms.</p>
+  </section>
+
+  <div class="main-layout">
+    <aside class="toc">
+      <h5>Contents</h5>
+      <a href="#acceptance">Acceptance</a>
+      <a href="#service">Our Service</a>
+      <a href="#permitted">Permitted Use</a>
+      <a href="#prohibited">Prohibited Use</a>
+      <a href="#accounts">Accounts</a>
+      <a href="#copyright">Copyright</a>
+      <a href="#disclaimer">Disclaimer</a>
+      <a href="#limitation">Limitation</a>
+      <a href="#termination">Termination</a>
+      <a href="#changes">Changes</a>
+      <a href="#contact">Contact</a>
+    </aside>
+
+    <div class="doc-content">
+      <div class="updated-tag">Last updated: January 1, 2025</div>
+
+      <div class="highlight-box">
+        <p>📋 <strong>Summary:</strong> Use ProLinks for personal, legal purposes only. Don't abuse the service or infringe on others' copyright. We can suspend accounts that violate these terms.</p>
+      </div>
+
+      <div class="doc-section" id="acceptance">
+        <h2>✅ Acceptance of Terms</h2>
+        <p>By accessing or using ProLinks ("the Service"), you agree to be bound by these Terms of Use. If you do not agree, please discontinue use of the Service immediately. These terms apply to all users, including browsers, registered users, and contributors.</p>
+      </div>
+
+      <div class="doc-section" id="service">
+        <h2>⚙️ Description of Service</h2>
+        <p>ProLinks provides a tool that allows users to download publicly accessible files from the internet. We do not host any content ourselves. All files are fetched directly from their original public sources.</p>
+        <p>We reserve the right to modify, suspend, or discontinue the Service at any time without prior notice.</p>
+      </div>
+
+      <div class="doc-section" id="permitted">
+        <h2>✔️ Permitted Use</h2>
+        <p>You may use ProLinks to:</p>
+        <ul>
+          <li>Download files from public URLs for personal, non-commercial use</li>
+          <li>Access your own files hosted on public servers</li>
+          <li>Download content that you have explicit permission to download</li>
+          <li>Use the service as a technical research tool</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="prohibited">
+        <h2>🚫 Prohibited Use</h2>
+        <div class="warn-box"><p>⚠️ Violations may result in immediate account termination and may be reported to relevant authorities.</p></div>
+        <p>You may NOT use ProLinks to:</p>
+        <ul>
+          <li>Download copyrighted material without authorization</li>
+          <li>Circumvent DRM or access controls on protected content</li>
+          <li>Use the service for bulk commercial downloading</li>
+          <li>Attempt to overload or attack our servers</li>
+          <li>Scrape, crawl, or automate requests to our service</li>
+          <li>Violate any applicable local, national, or international laws</li>
+          <li>Distribute downloaded content without proper rights</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="accounts">
+        <h2>👤 User Accounts</h2>
+        <p>Creating an account is optional. If you do create one, you are responsible for maintaining the confidentiality of your credentials. You agree to notify us immediately of any unauthorized use of your account.</p>
+        <p>We reserve the right to terminate accounts that violate these Terms at our sole discretion.</p>
+      </div>
+
+      <div class="doc-section" id="copyright">
+        <h2>©️ Copyright & Intellectual Property</h2>
+        <p>ProLinks respects intellectual property rights. Users are solely responsible for ensuring they have the legal right to download any content. We respond to valid DMCA takedown requests — see our <a href="/dmca" style="color:var(--orange);">DMCA Policy</a>.</p>
+      </div>
+
+      <div class="doc-section" id="disclaimer">
+        <h2>⚠️ Disclaimer of Warranties</h2>
+        <p>ProLinks is provided "as is" without warranties of any kind, either express or implied. We do not guarantee uninterrupted, error-free service. Use of the Service is at your own risk.</p>
+      </div>
+
+      <div class="doc-section" id="limitation">
+        <h2>🔒 Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, ProLinks shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service, even if advised of the possibility of such damages.</p>
+      </div>
+
+      <div class="doc-section" id="termination">
+        <h2>❌ Termination</h2>
+        <p>We reserve the right to terminate or suspend access to the Service immediately, without prior notice or liability, for any reason, including breach of these Terms. Upon termination, your right to use the Service ceases immediately.</p>
+      </div>
+
+      <div class="doc-section" id="changes">
+        <h2>🔄 Changes to Terms</h2>
+        <p>We reserve the right to update these Terms at any time. Changes will be effective immediately upon posting. Continued use of the Service constitutes acceptance of the updated Terms.</p>
+      </div>
+
+      <div class="doc-section" id="contact">
+        <h2>📧 Contact</h2>
+        <p>For questions about these Terms, contact us at prolinks@proton.me</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;">↓</div>
+          ProLinks
+        </a>
+        <p>The fastest free tool to protect your files links from any public link — no signup, no watermarks, always free.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ProLinks. All rights reserved. Made with ♥</p>
+      <div class="footer-bottom-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/dmca">DMCA</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

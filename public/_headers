@@ -1,0 +1,14 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cache-Control: public, max-age=0, must-revalidate
+
+/api
+  Cache-Control: no-store
+  Access-Control-Allow-Origin: *
+
+/api.php
+  Cache-Control: no-store
+  Access-Control-Allow-Origin: *

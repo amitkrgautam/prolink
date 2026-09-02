@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — ProLinks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #faf9f7; color: #2c2c2a; overflow-x: hidden; }
+    :root {
+      --orange: #f97316; --pink: #ec4899;
+      --grad: linear-gradient(135deg, #f97316, #ec4899);
+      --grad-soft: linear-gradient(135deg, #fff7f3, #fdf0f6);
+      --border: #e8e6e0; --text-muted: #888780; --text-hint: #b4b2a9;
+      --white: #ffffff; --shadow-card: 0 4px 24px rgba(0,0,0,0.07);
+      --shadow-hover: 0 8px 32px rgba(249,115,22,0.15);
+      --radius-md: 14px; --radius-lg: 20px; --radius-xl: 24px; --radius-pill: 999px;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1efe8; }
+    ::-webkit-scrollbar-thumb { background: #f9c4a0; border-radius: 3px; }
+
+    .navbar { position: sticky; top: 0; z-index: 200; background: rgba(250,249,247,0.93); backdrop-filter: blur(14px); border-bottom: 0.5px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 9px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: #1a1a18; text-decoration: none; }
+    .nav-logo-icon { width: 34px; height: 34px; background: var(--grad); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a18; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-ghost { font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; padding: 8px 14px; border-radius: var(--radius-pill); text-decoration: none; }
+    .btn-ghost:hover { color: #1a1a18; background: #f1efe8; }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 22px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none; display: inline-flex; align-items: center; }
+
+    .page-hero { padding: 80px 40px 64px; text-align: center; background: radial-gradient(ellipse 90% 55% at 50% -5%, #fff1eb 0%, #faf9f7 65%); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--white); border: 0.5px solid #f0cdb8; border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; color: #c2410c; margin-bottom: 28px; font-weight: 600; }
+    .badge-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .page-hero h1 { font-family: 'Nunito', sans-serif; font-size: 52px; font-weight: 900; color: #1a1a18; max-width: 600px; margin: 0 auto 14px; }
+    .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { color: var(--text-muted); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.75; }
+
+    .content-section { padding: 64px 40px; }
+    .content-inner { max-width: 960px; margin: 0 auto; }
+
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 36px; }
+
+    /* Info column */
+    .contact-info { display: flex; flex-direction: column; gap: 16px; }
+    .info-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 24px; transition: all 0.25s; }
+    .info-card:hover { border-color: #f9c4a0; box-shadow: var(--shadow-hover); }
+    .info-icon { font-size: 26px; margin-bottom: 12px; }
+    .info-card h4 { font-size: 14px; font-weight: 700; color: #1a1a18; margin-bottom: 6px; }
+    .info-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .info-card a { color: var(--orange); text-decoration: none; font-weight: 600; }
+
+    .response-badge { background: var(--grad-soft); border: 1px solid #f9c4a0; border-radius: var(--radius-md); padding: 14px 18px; display: flex; align-items: center; gap: 10px; }
+    .response-badge span { font-size: 13px; color: #92400e; font-weight: 500; }
+
+    /* Form column */
+    .form-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-card); }
+    .form-card h2 { font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: 900; color: #1a1a18; margin-bottom: 28px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #1a1a18; margin-bottom: 8px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-md);
+      font-size: 14px; color: #1a1a18; background: #faf9f7;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-hint); }
+
+    .submit-btn { width: 100%; padding: 14px; background: var(--grad); color: white; border: none; border-radius: var(--radius-md); font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: opacity 0.2s, transform 0.15s; }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:active { transform: scale(0.98); }
+
+    .success-msg { display: none; text-align: center; padding: 24px; }
+    .success-msg .check { font-size: 48px; margin-bottom: 12px; }
+    .success-msg h3 { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; color: #1a1a18; margin-bottom: 8px; }
+    .success-msg p { font-size: 14px; color: var(--text-muted); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 28px; right: 28px; background: #1a1a18; color: white; padding: 13px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; box-shadow: 0 8px 28px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 9px; transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 9999; pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .footer { background: var(--white); border-top: 0.5px solid var(--border); padding: 48px 40px 28px; text-align: center; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 640px; margin: 0 auto 32px; justify-items: center; }
+    .footer-brand { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .footer-brand .nav-logo { justify-content: center; }
+    .footer-brand p { font-size: 13px; color: var(--text-hint); margin: 12px auto 0; line-height: 1.7; max-width: 420px; }
+    .footer-col h5 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a18; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 0.5px solid var(--border); padding-top: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; max-width: 640px; margin: 0 auto; text-align: center; }
+    .footer-bottom p { font-size: 12px; color: var(--text-hint); margin: 0; }
+    .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: center; align-items: center; }
+    .footer-bottom-links a { font-size: 12px; color: var(--text-hint); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    @media (max-width: 900px) { .nav-links, .btn-ghost { display: none; } .contact-layout { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 36px; } }
+    @media (max-width: 600px) { .navbar { padding: 0 20px; } .page-hero { padding: 56px 20px 48px; } .content-section { padding: 40px 20px; } .form-card { padding: 24px 20px; } .footer { padding: 40px 20px 20px; } .footer-grid { grid-template-columns: 1fr; gap: 28px; } .footer-bottom-links { gap: 8px 16px; } }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="toast"><span>✅</span><span id="toast-msg">Sent!</span></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">↓</div>
+      ProLinks
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#tools">Tools</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="/signin" class="btn-ghost">Sign in</a>
+      <a href="/signup" class="btn-primary">Start Downloading</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="hero-badge"><div class="badge-dot"></div> We're Here</div>
+    <h1>Get in <span class="grad-text">Touch</span></h1>
+    <p>Have a question, report, or just want to say hello? We'd love to hear from you.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="content-inner">
+      <div class="contact-layout">
+
+        <!-- INFO -->
+        <div class="contact-info">
+          <div class="info-card">
+            <div class="info-icon">💬</div>
+            <h4>General Support</h4>
+            <p>For download issues, bugs, or feature requests.<br><a href="mailto:prolinks@proton.me">prolinks@proton.me</a></p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">⚖️</div>
+            <h4>Legal & DMCA</h4>
+            <p>For copyright notices and legal concerns.<br><a href="mailto:prolinks@proton.me">prolinks@proton.me</a></p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">🤝</div>
+            <h4>Partnerships</h4>
+            <p>For business partnerships and API access.<br><a href="mailto:prolinks@proton.me">prolinks@proton.me</a></p>
+          </div>
+          <div class="response-badge">
+            <span>⏱️</span>
+            <span>We typically respond within <strong>24–48 hours</strong> on business days.</span>
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="form-card">
+          <h2>Send us a Message</h2>
+          <div id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="Your first name" />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" placeholder="Your last name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="prolinks@proton.me" />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject">
+                <option value="">Select a topic...</option>
+                <option>Download issue</option>
+                <option>Bug report</option>
+                <option>Feature request</option>
+                <option>DMCA / Legal</option>
+                <option>Partnership</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="Describe your issue or question in detail..."></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitForm()">✉️ Send Message</button>
+          </div>
+          <div class="success-msg" id="successMsg">
+            <div class="check">🎉</div>
+            <h3>Message Sent!</h3>
+            <p>Thanks for reaching out. We'll get back to you within 24–48 hours.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;">↓</div>
+          ProLinks
+        </a>
+        <p>The fastest free tool to protect your files links from any public link — no signup, no watermarks, always free.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ProLinks. All rights reserved. Made with ♥</p>
+      <div class="footer-bottom-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/dmca">DMCA</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function submitForm() {
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      if (!email || !message) { showToast('⚠️ Please fill required fields'); return; }
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Legacy Apache/PHP URLs → Cloudflare Pages pretty URLs
+/index.php    /          301
+/about.php    /about     301
+/contact.php  /contact   301
+/privacy.php  /privacy   301
+/terms.php    /terms     301
+/dmca.php     /dmca      301
+/signin.php   /signin    301
+/signup.php   /signup    301
+/get.php      /get       301
+/404.php      /404       301
+
+# Keep old API clients working (rewrite so POST body is preserved)
+/api.php      /api       200
+
+# Legacy download PHP
+/download/index.php  /download  301
+/download/           /download  301

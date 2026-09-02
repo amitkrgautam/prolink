@@ -1,0 +1,11 @@
+{
+  "name": "prolinks",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public --kv LINKS",
+    "deploy": "wrangler pages deploy public"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

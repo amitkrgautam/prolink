@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — ProLinks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #faf9f7; color: #2c2c2a; overflow-x: hidden; }
+    :root {
+      --orange: #f97316; --pink: #ec4899;
+      --grad: linear-gradient(135deg, #f97316, #ec4899);
+      --grad-soft: linear-gradient(135deg, #fff7f3, #fdf0f6);
+      --border: #e8e6e0; --text-muted: #888780; --text-hint: #b4b2a9;
+      --bg: #faf9f7; --white: #ffffff;
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.07);
+      --shadow-hover: 0 8px 32px rgba(249,115,22,0.15);
+      --radius-sm: 10px; --radius-md: 14px; --radius-lg: 20px;
+      --radius-xl: 24px; --radius-pill: 999px;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1efe8; }
+    ::-webkit-scrollbar-thumb { background: #f9c4a0; border-radius: 3px; }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(250,249,247,0.93); backdrop-filter: blur(14px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 40px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 9px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: #1a1a18; text-decoration: none; }
+    .nav-logo-icon { width: 34px; height: 34px; background: var(--grad); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; font-weight: 800; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a18; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-ghost { font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; padding: 8px 14px; border-radius: var(--radius-pill); transition: color 0.2s, background 0.2s; }
+    .btn-ghost:hover { color: #1a1a18; background: #f1efe8; }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 22px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: opacity 0.2s, transform 0.15s; text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* HERO */
+    .page-hero {
+      padding: 80px 40px 64px; text-align: center;
+      background: radial-gradient(ellipse 90% 55% at 50% -5%, #fff1eb 0%, #faf9f7 65%);
+    }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--white); border: 0.5px solid #f0cdb8; border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; color: #c2410c; margin-bottom: 28px; font-weight: 600; }
+    .badge-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.85); } }
+    .page-hero h1 { font-family: 'Nunito', sans-serif; font-size: 52px; font-weight: 900; line-height: 1.12; color: #1a1a18; max-width: 600px; margin: 0 auto 14px; }
+    .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { color: var(--text-muted); font-size: 17px; max-width: 480px; margin: 0 auto; line-height: 1.75; }
+
+    /* CONTENT */
+    .content-section { padding: 72px 40px; }
+    .content-inner { max-width: 900px; margin: 0 auto; }
+
+    /* MISSION */
+    .mission-card {
+      background: var(--white); border: 0.5px solid var(--border);
+      border-radius: var(--radius-xl); padding: 48px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      margin-bottom: 48px;
+    }
+    .mission-card h2 { font-family: 'Nunito', sans-serif; font-size: 30px; font-weight: 900; color: #1a1a18; margin-bottom: 16px; }
+    .mission-card p { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 14px; }
+    .mission-visual { background: var(--grad-soft); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 80px; min-height: 200px; }
+
+    /* TEAM */
+    .section-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+    .section-title { font-family: 'Nunito', sans-serif; font-size: 34px; font-weight: 900; color: #1a1a18; margin-bottom: 8px; }
+    .section-sub { color: var(--text-muted); font-size: 15px; line-height: 1.7; margin-bottom: 36px; max-width: 500px; }
+
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 48px; }
+    .team-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 28px 20px; text-align: center; transition: all 0.25s; }
+    .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: #f9c4a0; }
+    .team-avatar { width: 64px; height: 64px; background: var(--grad); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+    .team-card h4 { font-size: 15px; font-weight: 700; color: #1a1a18; margin-bottom: 4px; }
+    .team-card p { font-size: 12px; color: var(--text-muted); }
+
+    /* VALUES */
+    .values-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+    .value-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 18px; transition: all 0.25s; height: 100%; }
+    .value-card:hover { border-color: #f9c4a0; box-shadow: var(--shadow-hover); }
+    .value-icon { font-size: 28px; margin-bottom: 14px; }
+    .value-card h4 { font-size: 15px; font-weight: 700; color: #1a1a18; margin-bottom: 8px; }
+    .value-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+    /* DIVIDER */
+    .section-divider { border: none; border-top: 0.5px solid var(--border); margin: 48px 0; }
+
+    /* FOOTER */
+    .footer { background: var(--white); border-top: 0.5px solid var(--border); padding: 48px 40px 28px; text-align: center; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 640px; margin: 0 auto 32px; justify-items: center; }
+    .footer-brand { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .footer-brand .nav-logo { justify-content: center; }
+    .footer-brand p { font-size: 13px; color: var(--text-hint); margin: 12px auto 0; line-height: 1.7; max-width: 420px; }
+    .footer-col h5 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a18; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 0.5px solid var(--border); padding-top: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; max-width: 640px; margin: 0 auto; text-align: center; }
+    .footer-bottom p { font-size: 12px; color: var(--text-hint); margin: 0; }
+    .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: center; align-items: center; }
+    .footer-bottom-links a { font-size: 12px; color: var(--text-hint); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    @media (max-width: 900px) {
+      .nav-links, .btn-ghost { display: none; }
+      .mission-card { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .page-hero h1 { font-size: 36px; }
+      .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .navbar { padding: 0 20px; }
+      .page-hero { padding: 56px 20px 48px; }
+      .content-section { padding: 52px 20px; }
+      .mission-card { padding: 28px 20px; }
+      .footer { padding: 40px 20px 20px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom-links { gap: 8px 16px; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">↓</div>
+      ProLinks
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#tools">Tools</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="/signin" class="btn-ghost">Sign in</a>
+      <a href="/signup" class="btn-primary">Start Downloading</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="hero-badge"><div class="badge-dot"></div> Free · No Signup · Original Quality</div>
+    <h1>Short Links for <span class="grad-text">Everyone</span></h1>
+    <p>ProLinks turns public file URLs into short download links you can share — fast, in the browser, with no app and no account.</p>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="content-section">
+    <div class="content-inner">
+
+      <!-- MISSION -->
+      <div class="mission-card">
+        <div>
+          <div class="section-label">Our Mission</div>
+          <h2>Simplify Access to Public Files</h2>
+          <p>Many workflows require a concise, shareable link to a file that already exists at a public URL. ProLinks provides a <strong>short download URL</strong> you can copy, send, and open on any device—without installing software or creating an account.</p>
+          <p>The process is straightforward: submit the source address, receive a ProLinks link, then download or share as needed. We support common formats across video, images, documents, audio, and archives, prioritizing <strong>accurate retrieval</strong> of the original file when the source allows it.</p>
+          <p>We do not host your content. The service applies only to <strong>public URLs</strong>—not password-protected or authenticated resources. Short links are short-lived and are removed automatically after 24 hours. You are responsible for using ProLinks only with material you are permitted to access and share, in accordance with our Terms of Use and DMCA policy.</p>
+        </div>
+        <div class="mission-visual">🔗</div>
+      </div>
+      <hr class="section-divider" />
+
+      <!-- VALUES -->
+      <div class="section-label">Our Values</div>
+      <div class="section-title">What We Stand For</div>
+      <div class="section-sub">Performance you can feel, privacy-conscious design, links that work everywhere, and clear boundaries—how we build and run ProLinks day to day.</div>
+
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">⚡</div>
+          <h4>Lightning Fast</h4>
+          <p>Downloads should start in seconds — no queues or heavy installers. The flow is paste, short link, go.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔒</div>
+          <h4>Privacy-First</h4>
+          <p>We don’t run ads or sell your data. Short links are there to share downloads; we’re not here to profile you.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌍</div>
+          <h4>Share Anywhere</h4>
+          <p>Your ProLinks URL opens in any modern browser on phones, tablets, and desktops—no app required.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">💎</div>
+          <h4>Original Quality</h4>
+          <p>We retrieve files in their original format from the public source whenever possible, without watermarks or unnecessary recompression.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;">↓</div>
+          ProLinks
+        </a>
+        <p>The fastest free tool to protect your files links from any public link — no signup, no watermarks, always free.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ProLinks. All rights reserved. Made with ♥</p>
+      <div class="footer-bottom-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/dmca">DMCA</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

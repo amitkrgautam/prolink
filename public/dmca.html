@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMCA — ProLinks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #faf9f7; color: #2c2c2a; overflow-x: hidden; }
+    :root {
+      --orange: #f97316; --pink: #ec4899;
+      --grad: linear-gradient(135deg, #f97316, #ec4899);
+      --grad-soft: linear-gradient(135deg, #fff7f3, #fdf0f6);
+      --border: #e8e6e0; --text-muted: #888780; --text-hint: #b4b2a9;
+      --white: #ffffff; --shadow-hover: 0 8px 32px rgba(249,115,22,0.15);
+      --radius-md: 14px; --radius-lg: 20px; --radius-xl: 24px; --radius-pill: 999px;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1efe8; }
+    ::-webkit-scrollbar-thumb { background: #f9c4a0; border-radius: 3px; }
+
+    .navbar { position: sticky; top: 0; z-index: 200; background: rgba(250,249,247,0.93); backdrop-filter: blur(14px); border-bottom: 0.5px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 9px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: #1a1a18; text-decoration: none; }
+    .nav-logo-icon { width: 34px; height: 34px; background: var(--grad); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a18; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-ghost { font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; padding: 8px 14px; border-radius: var(--radius-pill); transition: color 0.2s, background 0.2s; text-decoration: none; }
+    .btn-ghost:hover { color: #1a1a18; background: #f1efe8; }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 22px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none; display: inline-flex; align-items: center; }
+
+    .page-hero { padding: 80px 40px 64px; text-align: center; background: radial-gradient(ellipse 90% 55% at 50% -5%, #fff1eb 0%, #faf9f7 65%); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--white); border: 0.5px solid #f0cdb8; border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; color: #c2410c; margin-bottom: 28px; font-weight: 600; }
+    .badge-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .page-hero h1 { font-family: 'Nunito', sans-serif; font-size: 52px; font-weight: 900; color: #1a1a18; max-width: 600px; margin: 0 auto 14px; }
+    .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { color: var(--text-muted); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.75; }
+
+    .content-section { padding: 64px 40px; }
+    .content-inner { max-width: 780px; margin: 0 auto; }
+
+    .doc-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-xl); padding: 44px 48px; margin-bottom: 24px; }
+    .doc-card h2 { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; color: #1a1a18; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .doc-card h2 span { font-size: 22px; }
+    .doc-card p { font-size: 14px; color: var(--text-muted); line-height: 1.85; margin-bottom: 14px; }
+    .doc-card ul { list-style: none; padding: 0; }
+    .doc-card ul li { font-size: 14px; color: var(--text-muted); line-height: 1.8; padding: 8px 0 8px 24px; border-bottom: 0.5px solid #f5f4f1; position: relative; }
+    .doc-card ul li:last-child { border-bottom: none; }
+    .doc-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+
+    .notice-box { background: var(--grad-soft); border: 1px solid #f9c4a0; border-radius: var(--radius-md); padding: 20px 24px; margin: 20px 0; }
+    .notice-box p { font-size: 13px; color: #92400e; line-height: 1.7; margin: 0; }
+
+    .contact-card { background: var(--grad); border-radius: var(--radius-xl); padding: 36px 48px; text-align: center; color: white; }
+    .contact-card h3 { font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+    .contact-card p { opacity: 0.88; font-size: 14px; margin-bottom: 20px; }
+    .contact-btn { background: white; color: var(--orange); border: none; padding: 11px 28px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none; display: inline-block; }
+
+    .updated-tag { display: inline-block; background: #f1efe8; color: var(--text-muted); font-size: 12px; padding: 4px 12px; border-radius: var(--radius-pill); margin-bottom: 32px; }
+
+    .footer { background: var(--white); border-top: 0.5px solid var(--border); padding: 48px 40px 28px; text-align: center; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 640px; margin: 0 auto 32px; justify-items: center; }
+    .footer-brand { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .footer-brand .nav-logo { justify-content: center; }
+    .footer-brand p { font-size: 13px; color: var(--text-hint); margin: 12px auto 0; line-height: 1.7; max-width: 420px; }
+    .footer-col h5 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a18; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 0.5px solid var(--border); padding-top: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; max-width: 640px; margin: 0 auto; text-align: center; }
+    .footer-bottom p { font-size: 12px; color: var(--text-hint); margin: 0; }
+    .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: center; align-items: center; }
+    .footer-bottom-links a { font-size: 12px; color: var(--text-hint); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    @media (max-width: 900px) { .nav-links, .btn-ghost { display: none; } .footer-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 36px; } }
+    @media (max-width: 600px) { .navbar { padding: 0 20px; } .page-hero { padding: 56px 20px 48px; } .content-section { padding: 40px 20px; } .doc-card { padding: 28px 20px; } .contact-card { padding: 28px 20px; } .footer { padding: 40px 20px 20px; } .footer-grid { grid-template-columns: 1fr; gap: 28px; } .footer-bottom-links { gap: 8px 16px; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">↓</div>
+      ProLinks
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#tools">Tools</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="/signin" class="btn-ghost">Sign in</a>
+      <a href="/signup" class="btn-primary">Start Downloading</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="hero-badge"><div class="badge-dot"></div> Legal</div>
+    <h1><span class="grad-text">DMCA</span> Policy</h1>
+    <p>We respect intellectual property rights and respond promptly to copyright infringement notices.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="content-inner">
+      <div class="updated-tag">Last updated: January 1, 2025</div>
+
+      <div class="doc-card">
+        <h2><span>📋</span> Overview</h2>
+        <p>ProLinks respects the intellectual property rights of others and expects its users to do the same. In accordance with the Digital Millennium Copyright Act (DMCA), we will respond expeditiously to claims of copyright infringement on our platform.</p>
+        <p>ProLinks is a tool that facilitates downloading publicly accessible files. We do not host any content ourselves — we act as a technical intermediary.</p>
+      </div>
+
+      <div class="doc-card">
+        <h2><span>⚠️</span> Filing a DMCA Notice</h2>
+        <p>If you believe your copyrighted work has been infringed, please provide the following information in writing to our DMCA Agent:</p>
+        <ul>
+          <li>Your name, address, telephone number, and email address</li>
+          <li>A description of the copyrighted work you claim has been infringed</li>
+          <li>The specific URL or location of the allegedly infringing content</li>
+          <li>A statement that you have a good faith belief the use is not authorized</li>
+          <li>A statement, under penalty of perjury, that the information is accurate</li>
+          <li>Your physical or electronic signature</li>
+        </ul>
+      </div>
+
+      <div class="notice-box">
+        <p>⚡ <strong>Quick Response:</strong> We aim to process all valid DMCA notices within 48 business hours. Once verified, infringing access will be disabled promptly.</p>
+      </div>
+
+      <div class="doc-card">
+        <h2><span>🔄</span> Counter-Notification</h2>
+        <p>If you believe your content was removed by mistake or misidentification, you may file a counter-notification. The counter-notification must include:</p>
+        <ul>
+          <li>Your physical or electronic signature</li>
+          <li>Identification of the material and its location before removal</li>
+          <li>A statement under penalty of perjury that the material was removed by mistake</li>
+          <li>Your name, address, telephone number, and consent to jurisdiction</li>
+        </ul>
+      </div>
+
+      <div class="doc-card">
+        <h2><span>🚫</span> Repeat Infringers</h2>
+        <p>ProLinks has a policy of terminating accounts of users who are repeat infringers. We take copyright compliance seriously and will take appropriate action for repeated violations.</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Send a DMCA Notice</h3>
+        <p>Submit your DMCA takedown request via email. Include all required information for faster processing.</p>
+        <a href="mailto:prolinks@proton.me" class="contact-btn">✉️ prolinks@proton.me</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;">↓</div>
+          ProLinks
+        </a>
+        <p>The fastest free tool to protect your files links from any public link — no signup, no watermarks, always free.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ProLinks. All rights reserved. Made with ♥</p>
+      <div class="footer-bottom-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/dmca">DMCA</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

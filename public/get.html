@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download File — ProLinks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f0ede8; color: #2c2c2a; min-height: 100vh; display: flex; flex-direction: column; }
+    :root {
+      --orange: #f97316; --pink: #ec4899;
+      --grad: linear-gradient(135deg, #f97316, #ec4899);
+      --grad-soft: linear-gradient(135deg, #fff7f3, #fdf0f6);
+      --border: #e8e6e0; --text-muted: #888780; --text-hint: #b4b2a9;
+      --white: #ffffff;
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.07);
+      --radius-md: 14px; --radius-lg: 20px; --radius-xl: 24px; --radius-pill: 999px;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 40px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 9px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; color: #1a1a18; text-decoration: none; }
+    .nav-logo-icon { width: 32px; height: 32px; background: var(--grad); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 15px; }
+    .back-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; font-weight: 600; padding: 7px 14px; border-radius: var(--radius-pill); transition: all 0.2s; border: 1px solid var(--border); background: var(--white); }
+    .back-btn:hover { color: #1a1a18; border-color: #d4d2cc; }
+
+    /* MAIN */
+    main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 48px 20px 64px; }
+    .container { width: 100%; max-width: 520px; }
+
+    /* BREADCRUMB */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 13px; }
+    .breadcrumb a { color: var(--orange); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { color: var(--text-hint); }
+
+    /* PAGE TITLE */
+    .page-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; color: #1a1a18; margin-bottom: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* LOADING STATE */
+    #stateLoading { text-align: center; padding: 48px 0; }
+    .loading-spinner { width: 52px; height: 52px; border: 3px solid #e8e6e0; border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #stateLoading h3 { font-size: 16px; font-weight: 700; color: #1a1a18; margin-bottom: 6px; }
+    #stateLoading p { font-size: 13px; color: var(--text-muted); }
+
+    /* ERROR STATE */
+    #stateError { text-align: center; padding: 48px 24px; background: var(--white); border-radius: var(--radius-xl); border: 1px solid #fecaca; display: none; }
+    .error-icon { font-size: 52px; margin-bottom: 16px; }
+    #stateError h3 { font-size: 20px; font-weight: 800; color: #1a1a18; margin-bottom: 8px; font-family: 'Nunito', sans-serif; }
+    #stateError p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+    .err-back-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--grad); color: white; padding: 11px 26px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 700; text-decoration: none; transition: opacity 0.2s; }
+    .err-back-btn:hover { opacity: 0.88; }
+
+    /* MAIN CARD */
+    #stateResult { display: none; animation: fadeInUp 0.5s ease both; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* PREVIEW CARD */
+    .preview-card {
+      background: var(--white); border-radius: var(--radius-xl);
+      border: 0.5px solid var(--border);
+      box-shadow: var(--shadow-card);
+      overflow: hidden; margin-bottom: 16px;
+    }
+    .preview-thumb {
+      width: 100%; height: 220px;
+      background: linear-gradient(135deg, #1a1a18 0%, #2d2d2b 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .preview-thumb-bg { position: absolute; inset: 0; background: var(--grad); opacity: 0.15; }
+    .preview-icon-big { font-size: 72px; position: relative; z-index: 1; }
+    .preview-badge-tl { position: absolute; top: 14px; left: 14px; background: rgba(0,0,0,0.55); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 7px; backdrop-filter: blur(4px); letter-spacing: 0.5px; }
+    .preview-badge-tr { position: absolute; top: 14px; right: 14px; background: var(--grad); color: white; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 7px; letter-spacing: 0.5px; }
+    .preview-label { position: absolute; bottom: 14px; left: 14px; right: 14px; color: rgba(255,255,255,0.75); font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* FILE TYPE CHIP */
+    .file-type-chip { display: inline-flex; align-items: center; gap: 6px; margin: 16px 20px 0; padding: 5px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--orange); font-size: 12px; font-weight: 800; color: var(--orange); letter-spacing: 0.3px; }
+    .chip-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* FILE DETAILS */
+    .details-card { background: var(--white); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 20px; margin: 16px 0; box-shadow: var(--shadow-card); }
+    .details-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f0ede8; }
+    .details-header span { font-size: 15px; }
+    .details-header h4 { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+    .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #f9f8f6; }
+    .detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .detail-key { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-val { font-size: 13px; font-weight: 700; color: #1a1a18; text-align: right; max-width: 65%; word-break: break-word; }
+    .detail-val.orange { color: var(--orange); }
+    .detail-val.chip { background: #f0fdf4; color: #16a34a; padding: 3px 10px; border-radius: 6px; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; }
+    .check-icon { font-size: 11px; }
+
+    /* SHARE BAR */
+    .share-bar { background: #f0fdf4; border: 1px solid #86efac; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .share-bar span { font-size: 18px; flex-shrink: 0; }
+    .share-text { flex: 1; }
+    .share-text strong { display: block; font-size: 13px; color: #166534; font-weight: 700; }
+    .share-text small { font-size: 11px; color: #16a34a; }
+    .share-copy-btn { background: #16a34a; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; white-space: nowrap; flex-shrink: 0; }
+    .share-copy-btn:hover { opacity: 0.85; }
+
+    /* DOWNLOAD BUTTON */
+    .download-btn {
+      width: 100%; padding: 16px;
+      background: var(--grad); color: white;
+      border: none; border-radius: var(--radius-lg);
+      font-size: 16px; font-weight: 800;
+      cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: opacity 0.2s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      text-decoration: none; margin-bottom: 12px;
+      box-shadow: 0 6px 24px rgba(249,115,22,0.3);
+    }
+    .download-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 32px rgba(249,115,22,0.4); }
+    .download-btn:active { transform: scale(0.98); }
+
+    /* DISCLAIMER */
+    .disclaimer { font-size: 11px; color: var(--text-hint); text-align: center; line-height: 1.6; padding: 0 8px; }
+
+    /* FOOTER */
+    footer { background: var(--white); border-top: 0.5px solid var(--border); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    footer p { font-size: 12px; color: var(--text-hint); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12px; color: var(--text-hint); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--orange); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 28px; right: 28px; background: #1a1a18; color: white; padding: 13px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; box-shadow: 0 8px 28px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 9px; transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 9999; pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 600px) {
+      .navbar { padding: 0 16px; }
+      main { padding: 28px 12px 48px; }
+      .preview-thumb { height: 160px; }
+      .preview-icon-big { font-size: 52px; }
+      footer { padding: 16px 20px; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="toast"><span>✅</span><span id="toast-msg">Done!</span></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="https://prolinks.cc" class="nav-logo">
+      <div class="nav-logo-icon">↓</div>ProLinks
+    </a>
+    <a href="https://prolinks.cc" class="back-btn">← Back</a>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- BREADCRUMB -->
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span>›</span>
+        <span>Download File</span>
+      </div>
+
+      <!-- LOADING STATE -->
+      <div id="stateLoading">
+        <div class="loading-spinner"></div>
+        <h3>Loading file details...</h3>
+        <p>Fetching from server database</p>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div id="stateError">
+        <div class="error-icon" id="errorIcon">⚠️</div>
+        <h3 id="errorTitle">Link Not Found</h3>
+        <p id="errorMsg">This short link is invalid or not found in our database.</p>
+        <a href="/" class="err-back-btn">← Create New Link</a>
+      </div>
+
+      <!-- RESULT STATE -->
+      <div id="stateResult">
+        <div class="page-title" id="pageTitle">File</div>
+
+        <!-- PREVIEW CARD -->
+        <div class="preview-card">
+          <div class="preview-thumb">
+            <div class="preview-thumb-bg"></div>
+            <div class="preview-icon-big" id="previewIcon">📁</div>
+            <div class="preview-badge-tl">PREVIEW</div>
+            <div class="preview-badge-tr" id="previewFormat">FILE</div>
+            <div class="preview-label" id="previewLabel">File</div>
+          </div>
+          <div class="file-type-chip">
+            <div class="chip-dot"></div>
+            <span id="chipFormat">FILE</span>
+          </div>
+          <div style="height:16px;"></div>
+        </div>
+
+        <!-- FILE DETAILS CARD -->
+        <div class="details-card">
+          <div class="details-header">
+            <span>📋</span>
+            <h4>File Details</h4>
+          </div>
+          <div class="detail-row">
+            <span class="detail-key">File Name</span>
+            <span class="detail-val" id="detFileName">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-key">Format</span>
+            <span class="detail-val orange" id="detFormat">—</span>
+          </div>
+          <!--<div class="detail-row">
+            <span class="detail-key">File Size</span>
+            <span class="detail-val" id="detSize">—</span>
+          </div> -->
+          <div class="detail-row">
+            <span class="detail-key">Type</span>
+            <span class="detail-val" id="detType">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-key">Status</span>
+            <span class="detail-val chip"><span class="check-icon">✓</span> Ready</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-key">Created</span>
+            <span class="detail-val" id="detCreated">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-key">Total Views</span>
+            <span class="detail-val orange" id="detHits">—</span>
+          </div>
+        </div>
+
+        <!-- SHARE BAR -->
+        <div class="share-bar">
+          <div class="share-text">
+            <strong>Share this link with anyone</strong>
+          </div>
+          <button class="share-copy-btn" onclick="copyPageLink()">Copy Link</button>
+        </div>
+
+        <!-- DOWNLOAD BUTTON -->
+        <button class="download-btn" id="downloadBtn" onclick="handleDownload()">
+          ⬇ Download Now — <span id="dlFormat">FILE</span>
+        </button>
+
+<p class="disclaimer">
+  By downloading, you agree to our <a href="/terms" style="color:var(--orange);">Terms of Use</a>.  
+  We do not host any files on our server. All links are automatically deleted after 24 hours.  
+  Please download only content you have the right to access. ProLinks is not responsible for any misuse.
+</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 ProLinks. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/dmca">DMCA</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </footer>
+  <script>
+    function getCodeFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id') || params.get('code') || '';
+    }
+
+    function showState(state) {
+      document.getElementById('stateLoading').style.display = state === 'loading' ? 'block' : 'none';
+      document.getElementById('stateError').style.display = state === 'error' ? 'block' : 'none';
+      document.getElementById('stateResult').style.display = state === 'result' ? 'block' : 'none';
+    }
+
+    function showError(title, msg, icon = '⚠️') {
+      document.getElementById('errorIcon').textContent = icon;
+      document.getElementById('errorTitle').textContent = title;
+      document.getElementById('errorMsg').textContent = msg;
+      showState('error');
+    }
+
+    function formatDate(ts) {
+      const d = new Date(ts * 1000);
+      return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) +
+             ' ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    let originalUrl = null;
+    let currentCode = null;
+
+    function handleDownload() {
+      if (!originalUrl) return;
+      showToast('🚀 Redirecting to file...');
+      setTimeout(() => { window.location.href = originalUrl; }, 600);
+    }
+
+    function copyPageLink() {
+      if (!currentCode) return;
+      const url = window.location.origin + '/get?id=' + currentCode;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('✅ Link copied! Share it with anyone.');
+      }).catch(() => {
+        const el = document.createElement('textarea');
+        el.value = url;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        showToast('✅ Link copied!');
+      });
+    }
+
+    async function init() {
+      const code = getCodeFromUrl();
+
+      if (!code) {
+        showError('No Link Provided', 'Please provide a valid short link. Go back to ProLinks and create a new short link.', '🔗');
+        return;
+      }
+
+      currentCode = code;
+
+      try {
+        const response = await fetch('/api?action=get&code=' + encodeURIComponent(code));
+        const data = await response.json();
+
+        if (!data.success) {
+          if (data.error === 'not_found') {
+            showError('Link Not Found', 'This short link does not exist in our database. It may have never been created. Please go back and generate a new one.', '🔍');
+          } else {
+            showError('Error', data.error || 'Unknown server error', '⚠️');
+          }
+          return;
+        }
+
+        const meta = data.meta;
+        originalUrl = data.original_url;
+
+        document.title = (meta.filename || 'File') + ' — ProLinks';
+        document.getElementById('pageTitle').textContent = meta.filename || 'File';
+
+        document.getElementById('previewIcon').textContent = meta.icon || '📁';
+        document.getElementById('previewFormat').textContent = meta.format || 'FILE';
+        document.getElementById('previewLabel').textContent = meta.filename || 'File';
+        document.getElementById('chipFormat').textContent = meta.format || 'FILE';
+
+        // Detail rows
+        document.getElementById('detFileName').textContent = meta.filename || '—';
+        document.getElementById('detFormat').textContent = meta.format || '—';
+        //document.getElementById('detSize').textContent = meta.size || '—';
+        document.getElementById('detType').textContent = meta.type || '—';
+        document.getElementById('detCreated').textContent = formatDate(data.created_at);
+        document.getElementById('detHits').textContent = data.hits + ' views';
+
+        document.getElementById('dlFormat').textContent = meta.format || 'FILE';
+
+        showState('result');
+
+      } catch (err) {
+        showError('Connection Error', 'Could not connect to server. Please check your internet connection or try again later.', '🔌');
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // Init on page load
+    showState('loading');
+    init();
+  </script>
+</body>
+</html>
